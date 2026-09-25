@@ -127,6 +127,22 @@ For arrays, `dart:core` already has the `OrNull` forms: `elementAtOrNull`, `firs
 
 The `Json*` errors, `RangeError` and `StateError` extend `Error`: they mean the input broke the shape the code expects. Use a fallback for a field that may be absent, an `OrNull` getter when a wrong type should also count as absent, and catch the errors at the boundary where you can report or recover.
 
+## Releasing
+
+Releases are published from GitHub Actions. pub.dev accepts publishing from push events in this repository with the tag pattern `v{{version}}`, and the `Publish` workflow refuses to publish when the tag and the pubspec version differ.
+
+1. Set `version` in `pubspec.yaml` and add a `CHANGELOG.md` entry with the same version.
+2. Commit, push to `main` and wait for the `CI` workflow to pass.
+3. Tag the commit and push the tag:
+
+   ```sh
+   git tag v0.1.0 && git push origin v0.1.0
+   ```
+
+4. Check the `Publish` run in the Actions tab, then the package page on pub.dev.
+
+The tag pattern skips pre-release versions such as `v0.2.0-dev`. Publish those by hand with `dart pub publish`. A published version can be retracted on pub.dev within seven days and never deleted.
+
 ## License
 
 MIT
